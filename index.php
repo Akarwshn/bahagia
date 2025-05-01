@@ -510,7 +510,7 @@
         </div>
         <div class="col-md-10 col-12 mx-2" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2500">
           <div class="card bg-fee rounded-3 p-3">
-            <form action="" method="post">
+            <form action="save_wishes.php" method="post">
               <div class="mb-3">
                 <input type="text" name="nama" placeholder="Nama" class="form-control" required />
               </div>
@@ -526,6 +526,10 @@
               </div>
               <div class="mb-3 text-start">
                 <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
+                <div class="card bg-light p-3 mt-4">
+  <h4>Ucapan yang sudah masuk:</h4>
+  <iframe src="show_wishes.php" frameborder="0" width="100%" style="min-height: 300px;"></iframe>
+</div>
               </div>
             </form>
           </div>
