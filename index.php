@@ -524,12 +524,6 @@
                   <option value="Tidak Hadir">Tidak Hadir</option>
                 </select>
               </div>
-              <div class="mb-3 text-start">
-                <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
-                <div class="card bg-light p-3 mt-4">
-  <h4>Ucapan yang sudah masuk:</h4>
-  <iframe src="show_wishes.php" frameborder="0" width="100%" style="min-height: 300px;"></iframe>
-</div>
               </div>
             </form>
           </div>
