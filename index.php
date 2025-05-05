@@ -527,8 +527,16 @@
               <div class="mb-3 text-start">
                 <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
               </div>
-            <form action="index.php" method="post">
-          </div>
+            <form>
+            </div id="wishes">
+              <?php
+               $file = fopen("wishes.csv","r");
+               while(($data = fgetcsv($file)) !== FALSE) {
+                 echo "<p><strong>".htmlspecialchars($data[0])
+                ":</strong>".htmlspecialchars($data[1])."</p>";
+               }
+                fclose($file);
+                />
         </div>
       </div>
     </div>
