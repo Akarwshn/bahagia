@@ -527,7 +527,30 @@
               <div class="mb-3 text-start">
                 <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
               </div>
-            </form>
+            <form action="index.php" method="post">
+              <div class="card bg-light p-4 mt-4">
+  <h3 class="font-dancing fs-4 mb-3 text-center">Ucapan dari Tamu</h3>
+  <div class="wishes-list">
+    <?php
+    if (file_exists("wishes.csv")) {
+        $lines = file("wishes.csv", FILE_IGNORE_NEW_LINES);
+        if (count($lines) > 0) {
+            foreach ($lines as $line) {
+                list($nama, $ucapan) = str_getcsv($line);
+                echo '<div class="mb-3 p-3 border rounded bg-white shadow-sm">';
+                echo '<strong class="text-dark">'.htmlspecialchars($nama).':</strong><br>';
+                echo '<span class="text-muted">'.nl2br(htmlspecialchars($ucapan)).'</span>';
+                echo '</div>';
+            }
+        } else {
+            echo "<p class='text-center text-muted'>Belum ada ucapan.</p>";
+        }
+    } else {
+        echo "<p class='text-center text-muted'>Belum ada ucapan.</p>";
+    }
+    ?>
+  </div>
+</div>
           </div>
         </div>
       </div>
