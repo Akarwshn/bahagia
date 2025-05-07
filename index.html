@@ -604,6 +604,28 @@
     AOS.init({
       once: true,
     });
+  <script
+    src="https://ugwfpphgpxzwqbzjuhga.supabase.co">
+      const supabaseUrl = 'https://ugwfpphgpxzwqbzjuhga.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnd2ZwcGhncHh6d3Fiemp1aGdhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2Mjg5MTEsImV4cCI6MjA2MjIwNDkxMX0.bKvRLs4HZ6pZ4UBFQkif8P4OtCDSxI1dAMsyo8WjOaA';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+document.getElementById("form-wishes").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const message = document.getElementById("message").value;
+
+  const { data, error } = await supabase
+    .from('wishes')
+    .insert([{ name, message }]);
+
+  if (error) {
+    alert("Gagal menyimpan ucapan.");
+    console.error(error);
+  } else {
+    alert("Ucapan berhasil disimpan!");
+  }
+});
   </script>
 </body>
 
