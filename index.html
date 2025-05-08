@@ -528,6 +528,8 @@
     <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
   </div>
 </form>
+            <!-- Supabase JS Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
             <h4 class="mt-4">Ucapan & Doa</h4>
 <div id="wish-list"></div>
 <script>
@@ -558,13 +560,7 @@
       listContainer.appendChild(item);
     });
   }
-
-  // Panggil saat halaman dimuat
-  loadWishes();
 </script>
-
-<!-- Supabase JS Client -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <!-- Kirim ke Supabase -->
 <script>
