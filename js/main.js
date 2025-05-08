@@ -125,6 +125,39 @@ window.onload = function () {
       loadWishes();
     }
   });
+<script>
+  async function loadWishes() {
+    const { data, error } = await supabase
+      .from('wishes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Gagal memuat ucapan:', error.message);
+      return;
+    }
+
+    const listContainer = document.getElementById('wish-list');
+    listContainer.innerHTML = ''; // Kosongkan dulu
+
+    data.forEach(wish => {
+      const item = document.createElement('div');
+      item.classList.add('card', 'mb-2', 'p-3');
+
+      item.innerHTML = `
+        <strong>${wish.name}</strong> - <em>${wish.confirmation}</em><br/>
+        <p>${wish.message}</p>
+        <small><i>${new Date(wish.created_at).toLocaleString('id-ID')}</i></small>
+      `;
+
+      listContainer.appendChild(item);
+    });
+  }
+
+  // Panggil saat halaman dimuat
+  loadWishes();
+</script>
+
           
 // lagu start
 const lagu = document.getElementById("lagu");
