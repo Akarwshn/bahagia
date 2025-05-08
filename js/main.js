@@ -77,6 +77,55 @@ function stopAudio() {
 }
 // lagu end
 
+const supabase = supabase.createClient(
+  "https://temlsgkkbdphwcyqrosm.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbWxzZ2trYmRwaHdjeXFyb3NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2Mjg4MzYsImV4cCI6MjA2MjIwNDgzNn0.5I0s9ZrZfc0QXWgfY1JEUsVgNDoBMYEnDwHDDL5lKUo"
+);
+
+async function loadWishes() {
+  const { data, error } = await supabase
+    .from("wishes")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  const listContainer = document.getElementById("wish-list");
+  listContainer.innerHTML = "";
+
+  if (error) {
+    listContainer.innerHTML = `<p class="text-danger">Gagal memuat ucapan</p>`;
+    return;
+  }
+
+  data.forEach((wish) => {
+    const item = document.createElement("div");
+    item.className = "card bg-white mb-3 p-3 shadow-sm";
+    item.innerHTML = `
+      <strong>${wish.name}</strong> <em>(${wish.confirmation})</em>
+      <p class="mb-1">${wish.message}</p>
+      <small class="text-muted">${new Date(wish.created_at).toLocaleString("id-ID")}</small>
+    `;
+    listContainer.appendChild(item);
+  });
+}
+
+document.getElementById("wish-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const message = document.getElementById("message").value;
+  const confirmation = document.getElementById("confirmation").value;
+
+  const { error } = await supabase.from("wishes").insert([{ name, message, confirmation }]);
+  if (error) {
+    alert("Gagal mengirim ucapan: " + error.message);
+  } else {
+    alert("Ucapan berhasil dikirim! 🥰");
+    this.reset();
+    loadWishes();
+  }
+});
+
+window.addEventListener("DOMContentLoaded", loadWishes);
+
 // undngan start
 function GetURLParameter(sParam) {
   var sPageURL = window.location.search.substring(1);
