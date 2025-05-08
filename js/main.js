@@ -42,7 +42,7 @@ salin1.onclick = () => {
 // copy end
 
 // waktu start
-const countDownDate = new Date("Jul 05, 2025 00:00:00").getTime();
+const countDownDate = new Date("Jul 05, 2025 09:00:00").getTime();
 const x = setInterval(function () {
   const now = new Date().getTime();
   const distance = countDownDate - now;
@@ -156,6 +156,21 @@ window.onload = function () {
 
   // Panggil saat halaman dimuat
   loadWishes();
+async function loadWishes() {
+  console.log('Memuat ucapan...');
+  const { data, error } = await supabase
+    .from('wishes')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error Supabase:', error.message);
+    return;
+  }
+
+  console.log('Data diterima:', data);
+}
+
 </script>
 
           
