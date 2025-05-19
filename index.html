@@ -500,45 +500,46 @@
   </section>
   <!-- amplop end -->
   <!-- Ucapan start -->
-  <section class="bg-wakwak">
-    <div class="container py-5">
-      <div class="row text-center justify-content-center">
-        <div class="col-12 mb-5" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2250">
-          <h1 class="font-dancing fs-40">Wishes</h1>
-          <p class="p-0 m-0">Doa Restu Anda merupakan karunia</p>
-          <p class="p-0 m-0">yang sangat berarti bagi kami.</p>
-        </div>
-        <div class="col-md-10 col-12 mx-2" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2500">
-          <div class="card bg-fee rounded-3 p-3">
-           <form id="wish-form" method="post">
-  <div class="mb-3">
-    <input type="text" id="name" name="nama" placeholder="Nama" class="form-control" required />
-  </div>
-  <div class="mb-3">
-    <textarea id="message" name="ucapan" placeholder="Ucapan" rows="4" class="form-control" required></textarea>
-  </div>
-  <div class="mb-3">
-    <select id="confirmation" name="konfirmasi" class="form-select" required>
-      <option disabled selected>Konfirmasi Kehadiran</option>
-      <option value="Hadir">Hadir</option>
-      <option value="Tidak Hadir">Tidak Hadir</option>
-    </select>
-  </div>
-  <div class="mb-3 text-start">
-    <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
-  </div>
-</form>
-</div>
-</div>
-
-    <!-- ⬇️ Tambahkan ini setelah form -->
-    <section class="ucapan-list mt-4">
-      <div class="container">
-        <h4 class="text-center">Ucapan dari Tamu</h4>
-        <div id="wish-list"></div>
+<section class="bg-wakwak">
+  <div class="container py-5">
+    <div class="row text-center justify-content-center">
+      <div class="col-12 mb-5" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2250">
+        <h1 class="font-dancing fs-40">Wishes</h1>
+        <p class="p-0 m-0">Doa Restu Anda merupakan karunia</p>
+        <p class="p-0 m-0">yang sangat berarti bagi kami.</p>
       </div>
-    </section>
-  <!-- Ucapan end -->
+      <div class="col-md-10 col-12 mx-2" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2500">
+        <div class="card bg-fee rounded-3 p-3">
+          <form id="wish-form" method="post">
+            <div class="mb-3">
+              <input type="text" id="name" name="nama" placeholder="Nama" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <textarea id="message" name="ucapan" placeholder="Ucapan" rows="4" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+              <select id="confirmation" name="konfirmasi" class="form-select" required>
+                <option disabled selected>Konfirmasi Kehadiran</option>
+                <option value="Hadir">Hadir</option>
+                <option value="Tidak Hadir">Tidak Hadir</option>
+              </select>
+            </div>
+            <div class="mb-3 text-start">
+              <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
+            </div>
+          </form>
+        </div>
+          <!-- Daftar Ucapan -->
+  <div class="mt-5" id="wish-list">
+    <!-- Data ucapan tamu akan ditampilkan di sini -->
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Ucapan end -->
+
   <!-- salam start -->
   <section class="bg-wakwak">
     <div class="container py-5">
@@ -609,78 +610,61 @@
     AOS.init({
       once: true,
     });
-<!-- Load Supabase UMD (non-module) -->
+  </script>
+  <!-- Supabase SDK Non-module (UMD) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const supabase = window.supabase.createClient(
-      "https://defrxrgsnnmxpbucomop.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
-    );
+  const supabase = window.supabase.createClient(
+    "https://defrxrgsnnmxpbucomop.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
+  );
 
-    const form = document.getElementById("wish-form");
+  document.getElementById("wish-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    if (form) {
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault();
+    const nama = document.getElementById("name").value;
+    const ucapan = document.getElementById("message").value;
+    const konfirmasi = document.getElementById("confirmation").value;
 
-        const nama = document.getElementById("name").value.trim();
-        const ucapan = document.getElementById("message").value.trim();
-        const konfirmasi = document.getElementById("confirmation").value;
+    const { error } = await supabase.from("wishes").insert([
+      { nama, ucapan, konfirmasi }
+    ]);
 
-        if (!nama || !ucapan || !konfirmasi) {
-          alert("Harap isi semua kolom!");
-          return;
-        }
+    if (error) {
+      alert("❌ Gagal menyimpan ucapan.");
+      console.error(error);
+    } else {
+      alert("✅ Ucapan berhasil dikirim!");
+      document.getElementById("wish-form").reset();
+      loadWishes();
+    }
+  });
 
-        const { error } = await supabase.from("wishes").insert([
-          { nama, ucapan, konfirmasi }
-        ]);
+  async function loadWishes() {
+    const { data, error } = await supabase
+      .from("wishes")
+      .select("*")
+      .order("id", { ascending: false });
 
-        if (error) {
-          alert("❌ Gagal menyimpan ucapan.");
-          console.error(error);
-        } else {
-          alert("✅ Ucapan berhasil dikirim!");
-          form.reset();
-          loadWishes();
-        }
+    if (!error) {
+      const list = document.getElementById("wish-list");
+      list.innerHTML = "";
+      data.forEach((wish) => {
+        const item = document.createElement("div");
+        item.className = "card p-2 mb-2";
+        item.innerHTML = `
+          <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
+          <p>${wish.ucapan}</p>
+        `;
+        list.appendChild(item);
       });
     }
+  }
 
-    async function loadWishes() {
-      const { data, error } = await supabase
-        .from("wishes")
-        .select("*")
-        .order("id", { ascending: false });
+  loadWishes();
+</script>
 
-      const list = document.getElementById("wish-list");
-      if (error) {
-        console.error("Gagal mengambil data:", error);
-        list.innerHTML = `<p class="text-danger">Gagal memuat ucapan.</p>`;
-        return;
-      }
+</body>
 
-      if (list && data) {
-        list.innerHTML = "";
-        data.forEach((wish) => {
-          const item = document.createElement("div");
-          item.className = "card p-3 mb-3 shadow-sm";
-          item.innerHTML = `
-            <strong class="text-primary">${wish.nama}</strong>
-            <span class="badge bg-${wish.konfirmasi === "Hadir" ? "success" : "secondary"} ms-2">${wish.konfirmasi}</span>
-            <p class="mt-2 mb-0">${wish.ucapan}</p>
-          `;
-          list.appendChild(item);
-        });
-      }
-    }
-
-    // Muat ucapan saat halaman dibuka
-    loadWishes();
-  });
-<script> 
-    </body>
-    </html>
-
+</html>
