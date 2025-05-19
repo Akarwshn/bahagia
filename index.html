@@ -609,7 +609,7 @@
     AOS.init({
       once: true,
     });
- <!-- Load Supabase UMD (non-module) -->
+<!-- Load Supabase UMD (non-module) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
@@ -625,9 +625,14 @@
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const nama = document.getElementById("name").value;
-        const ucapan = document.getElementById("message").value;
+        const nama = document.getElementById("name").value.trim();
+        const ucapan = document.getElementById("message").value.trim();
         const konfirmasi = document.getElementById("confirmation").value;
+
+        if (!nama || !ucapan || !konfirmasi) {
+          alert("Harap isi semua kolom!");
+          return;
+        }
 
         const { error } = await supabase.from("wishes").insert([
           { nama, ucapan, konfirmasi }
@@ -650,27 +655,30 @@
         .select("*")
         .order("id", { ascending: false });
 
-      if (!error && data) {
-        const list = document.getElementById("wish-list");
-        list.innerHTML = "";
+      const list = document.getElementById("wish-list");
+      if (error) {
+        console.error("Gagal mengambil data:", error);
+        list.innerHTML = `<p class="text-danger">Gagal memuat ucapan.</p>`;
+        return;
+      }
 
+      if (list && data) {
+        list.innerHTML = "";
         data.forEach((wish) => {
           const item = document.createElement("div");
-          item.className = "card p-2 mb-2";
+          item.className = "card p-3 mb-3 shadow-sm";
           item.innerHTML = `
-            <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
-            <p>${wish.ucapan}</p>
+            <strong class="text-primary">${wish.nama}</strong>
+            <span class="badge bg-${wish.konfirmasi === "Hadir" ? "success" : "secondary"} ms-2">${wish.konfirmasi}</span>
+            <p class="mt-2 mb-0">${wish.ucapan}</p>
           `;
           list.appendChild(item);
         });
-      } else {
-        console.error("Gagal mengambil data:", error);
       }
     }
 
-    // Panggil saat halaman dibuka
+    // Muat ucapan saat halaman dibuka
     loadWishes();
   });
 </script>
-      </body>
-</html>
+
