@@ -605,8 +605,11 @@
       once: true,
     });
   </script>
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<!-- Supabase SDK UMD -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
 <script>
+  // Inisialisasi Supabase
   const supabase = supabasejs.createClient(
     "https://defrxrgsnnmxpbucomop.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
@@ -619,7 +622,9 @@
     const ucapan = document.getElementById("message").value;
     const konfirmasi = document.getElementById("confirmation").value;
 
-    const { error } = await supabase.from("wishes").insert([{ nama, ucapan, konfirmasi }]);
+    const { error } = await supabase.from("wishes").insert([
+      { nama, ucapan, konfirmasi }
+    ]);
 
     if (error) {
       alert("❌ Gagal menyimpan ucapan.");
@@ -655,8 +660,6 @@
   loadWishes();
 </script>
 
-</body>
-</html>
 
 </body>
 
