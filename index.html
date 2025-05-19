@@ -609,8 +609,7 @@
     AOS.init({
       once: true,
     });
-  </script>
-<!-- Load Supabase UMD (non-module) -->
+ <!-- Load Supabase UMD (non-module) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
@@ -654,6 +653,7 @@
       if (!error && data) {
         const list = document.getElementById("wish-list");
         list.innerHTML = "";
+
         data.forEach((wish) => {
           const item = document.createElement("div");
           item.className = "card p-2 mb-2";
@@ -663,9 +663,12 @@
           `;
           list.appendChild(item);
         });
+      } else {
+        console.error("Gagal mengambil data:", error);
       }
     }
- </script>
 
-</body>
-</html>
+    // Panggil saat halaman dibuka
+    loadWishes();
+  });
+</script>
