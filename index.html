@@ -605,29 +605,27 @@
       once: true,
     });
   </script>
-  <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script>
+  const supabase = supabasejs.createClient(
+    "https://defrxrgsnnmxpbucomop.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
+  );
 
-  const supabaseUrl = "https://defrxrgsnnmxpbucomop.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A";
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  document.getElementById("wish-form").addEventListener("submit", async (e) => {
+  document.getElementById("wish-form").addEventListener("submit", async function (e) {
     e.preventDefault();
+
     const nama = document.getElementById("name").value;
     const ucapan = document.getElementById("message").value;
     const konfirmasi = document.getElementById("confirmation").value;
 
-    const { data, error } = await supabase.from("wishes").insert([
-      { nama, ucapan, konfirmasi }
-    ]);
+    const { error } = await supabase.from("wishes").insert([{ nama, ucapan, konfirmasi }]);
 
     if (error) {
-      alert("Gagal menyimpan ucapan.");
+      alert("❌ Gagal menyimpan ucapan.");
       console.error(error);
     } else {
-      alert("Ucapan berhasil dikirim!");
+      alert("✅ Ucapan berhasil dikirim!");
       document.getElementById("wish-form").reset();
       loadWishes();
     }
@@ -656,6 +654,7 @@
 
   loadWishes();
 </script>
+
 </body>
 </html>
 
