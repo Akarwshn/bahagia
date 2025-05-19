@@ -605,58 +605,64 @@
       once: true,
     });
   </script>
-<!-- Supabase SDK Non-module (UMD) -->
+<!-- Load Supabase UMD (non-module) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
-  const supabase = window.supabase.createClient(
-    "https://defrxrgsnnmxpbucomop.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
-  );
+  document.addEventListener("DOMContentLoaded", function () {
+    const supabase = window.supabase.createClient(
+      "https://defrxrgsnnmxpbucomop.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
+    );
 
-  document.getElementById("wish-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
+    const form = document.getElementById("wish-form");
 
-    const nama = document.getElementById("name").value;
-    const ucapan = document.getElementById("message").value;
-    const konfirmasi = document.getElementById("confirmation").value;
+    if (form) {
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    const { error } = await supabase.from("wishes").insert([
-      { nama, ucapan, konfirmasi }
-    ]);
+        const nama = document.getElementById("name").value;
+        const ucapan = document.getElementById("message").value;
+        const konfirmasi = document.getElementById("confirmation").value;
 
-    if (error) {
-      alert("❌ Gagal menyimpan ucapan.");
-      console.error(error);
-    } else {
-      alert("✅ Ucapan berhasil dikirim!");
-      document.getElementById("wish-form").reset();
-      loadWishes();
-    }
-  });
+        const { error } = await supabase.from("wishes").insert([
+          { nama, ucapan, konfirmasi }
+        ]);
 
-  async function loadWishes() {
-    const { data, error } = await supabase
-      .from("wishes")
-      .select("*")
-      .order("id", { ascending: false });
-
-    if (!error) {
-      const list = document.getElementById("wish-list");
-      list.innerHTML = "";
-      data.forEach((wish) => {
-        const item = document.createElement("div");
-        item.className = "card p-2 mb-2";
-        item.innerHTML = `
-          <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
-          <p>${wish.ucapan}</p>
-        `;
-        list.appendChild(item);
+        if (error) {
+          alert("❌ Gagal menyimpan ucapan.");
+          console.error(error);
+        } else {
+          alert("✅ Ucapan berhasil dikirim!");
+          form.reset();
+          loadWishes();
+        }
       });
     }
-  }
 
-  loadWishes();
+    async function loadWishes() {
+      const { data, error } = await supabase
+        .from("wishes")
+        .select("*")
+        .order("id", { ascending: false });
+
+      if (!error && data) {
+        const list = document.getElementById("wish-list");
+        list.innerHTML = "";
+        data.forEach((wish) => {
+          const item = document.createElement("div");
+          item.className = "card p-2 mb-2";
+          item.innerHTML = `
+            <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
+            <p>${wish.ucapan}</p>
+          `;
+          list.appendChild(item);
+        });
+      }
+    }
+
+    loadWishes();
+  });
 </script>
 
 
