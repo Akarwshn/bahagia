@@ -616,8 +616,7 @@
     AOS.init({
       once: true,
     });
-</script>
-  <!-- Supabase SDK Non-module (UMD) -->
+<!-- Supabase SDK Non-module (UMD) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
@@ -626,91 +625,85 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
   );
 
-  document.getElementById("wish-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
+  document.addEventListener("DOMContentLoaded", () => {
+    loadWishes();
 
-    const nama = document.getElementById("name").value;
-    const ucapan = document.getElementById("message").value;
-    const konfirmasi = document.getElementById("confirmation").value;
+    document.getElementById("wish-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    const { error } = await supabase.from("wishes").insert([
-      { nama, ucapan, konfirmasi }
-    ]);
+      const nama = document.getElementById("name").value;
+      const ucapan = document.getElementById("message").value;
+      const konfirmasi = document.getElementById("confirmation").value;
 
-    if (error) {
-      alert("❌ Gagal menyimpan ucapan.");
-      console.error(error);
-    } else {
-      alert("✅ Ucapan berhasil dikirim!");
-      document.getElementById("wish-form").reset();
-      loadWishes();
-    }
+      const { error } = await supabase.from("wishes").insert([
+        { nama, ucapan, konfirmasi }
+      ]);
+
+      if (error) {
+        alert("❌ Gagal menyimpan ucapan.");
+        console.error(error);
+      } else {
+        alert("✅ Ucapan berhasil dikirim!");
+        document.getElementById("wish-form").reset();
+        loadWishes();
+      }
+    });
   });
 
- async function loadWishes() {
-  const { data, error } = await supabase
-    .from("wishes")
-    .select("*")
-    .order("id", { ascending: false });
+  async function loadWishes() {
+    const { data, error } = await supabase
+      .from("wishes")
+      .select("*")
+      .order("id", { ascending: false });
 
-  if (!error && data) {
-    const list = document.getElementById("wish-list");
-    const button = document.getElementById("toggle-more");
+    if (!error && data) {
+      const list = document.getElementById("wish-list");
+      const button = document.getElementById("toggle-more");
 
-    list.innerHTML = "";
-    button.classList.add("d-none");
+      list.innerHTML = "";
+      button.classList.add("d-none");
 
-    const maxVisible = 3;
-    let expanded = false;
+      const maxVisible = 3;
+      let expanded = false;
 
-data.forEach((wish) => {
-  const card = document.createElement("div");
-  card.className = "wish-card";
+      data.forEach((wish, index) => {
+        const card = document.createElement("div");
+        card.className = "wish-card";
 
-  const name = document.createElement("div");
-  name.className = "wish-name";
-  name.textContent = `${wish.nama} (${wish.konfirmasi})`;
+        const name = document.createElement("div");
+        name.className = "wish-name";
+        name.textContent = `${wish.nama} (${wish.konfirmasi})`;
 
-  const message = document.createElement("div");
-  message.className = "wish-message";
-  message.textContent = wish.ucapan;
+        const message = document.createElement("div");
+        message.className = "wish-message";
+        message.textContent = wish.ucapan;
 
-  card.appendChild(name);
-  card.appendChild(message);
-  list.appendChild(card);
-});
+        if (index >= maxVisible) {
+          card.style.display = "none";
+        }
 
+        card.appendChild(name);
+        card.appendChild(message);
+        list.appendChild(card);
+      });
 
-      if (index >= maxVisible) {
-        item.style.display = "none";
+      if (data.length > maxVisible) {
+        button.classList.remove("d-none");
+        button.textContent = "Lihat Selengkapnya";
+
+        button.onclick = () => {
+          expanded = !expanded;
+          document.querySelectorAll(".wish-card").forEach((el, i) => {
+            if (i >= maxVisible) {
+              el.style.display = expanded ? "block" : "none";
+            }
+          });
+          button.textContent = expanded ? "Sembunyikan" : "Lihat Selengkapnya";
+        };
       }
-      list.appendChild(item);
-    });
-
-    if (data.length > maxVisible) {
-      button.classList.remove("d-none");
-      button.textContent = "Lihat Selengkapnya";
-
-      button.onclick = () => {
-        expanded = !expanded;
-        document.querySelectorAll(".wish-item").forEach((el, i) => {
-          if (i >= maxVisible) {
-            el.style.display = expanded ? "block" : "none";
-          }
-        });
-        button.textContent = expanded ? "Sembunyikan" : "Lihat Selengkapnya";
-      };
     }
   }
-}
-
-
-  loadWishes();
-
-  // Jalankan saat halaman dimuat
-  document.addEventListener("DOMContentLoaded", loadWishes);
 </script>
-
 
 </body>
 
