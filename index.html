@@ -646,7 +646,7 @@
 
       if (error) {
         alert("❌ Gagal menyimpan ucapan.");
-        console.error(error);
+         console.error("Insert error:", error.message, error);
       } else {
         alert("✅ Ucapan berhasil dikirim!");
         document.getElementById("wish-form").reset();
