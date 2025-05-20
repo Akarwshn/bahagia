@@ -617,26 +617,31 @@
       once: true,
     });
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
 <script>
   const supabase = window.supabase.createClient(
     "https://defrxrgsnnmxpbucomop.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZnJ4cmdzbm5teHBidWNvbW9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NjQ5NzEsImV4cCI6MjA2MzI0MDk3MX0.oD2UPBMUhF9EZ3m20q_7AqgYlQrc2RtroYf_W8ivC4A"
   );
-<script>
+
   document.addEventListener("DOMContentLoaded", () => {
     loadWishes();
 
     document.getElementById("wish-form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const nama = document.getElementById("name").value;
-      const ucapan = document.getElementById("message").value;
-      const konfirmasi = document.getElementById("confirmation").value;
+      const name = document.getElementById("name").value;
+      const message = document.getElementById("message").value;
+      const confirmation = document.getElementById("confirmation").value;
 
       const { error } = await supabase.from("wishes").insert([
-        { nama, ucapan, konfirmasi }
+        {
+          name,
+          message,
+          confirmation,
+          created_at: new Date().toISOString()
+        }
       ]);
 
       if (error) {
@@ -654,7 +659,7 @@
     const { data, error } = await supabase
       .from("wishes")
       .select("*")
-      .order("id", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (!error && data) {
       const list = document.getElementById("wish-list");
@@ -672,11 +677,11 @@
 
         const name = document.createElement("div");
         name.className = "wish-name";
-        name.textContent = `${wish.nama} (${wish.konfirmasi})`;
+        name.textContent = `${wish.name} (${wish.confirmation})`;
 
         const message = document.createElement("div");
         message.className = "wish-message";
-        message.textContent = wish.ucapan;
+        message.textContent = wish.message;
 
         if (index >= maxVisible) {
           card.style.display = "none";
@@ -704,6 +709,7 @@
     }
   }
 </script>
+
 
 </body>
 
