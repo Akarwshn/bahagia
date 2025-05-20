@@ -81,3 +81,27 @@
   height: 100vh;
   object-fit: cover;
 }
+
+.wish-card {
+  font-size: 0.9rem;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  border-left: 4px solid #a86f6f;
+}
+
+.wish-name {
+  font-weight: 600;
+  color: #7b3f3f;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.wish-message {
+  margin: 0;
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
