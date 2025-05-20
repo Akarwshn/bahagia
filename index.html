@@ -644,26 +644,46 @@
     }
   });
 
-  async function loadWishes() {
-    const { data, error } = await supabase
-      .from("wishes")
-      .select("*")
-      .order("id", { ascending: false });
+ async function loadWishes() {
+  const { data, error } = await supabase
+    .from("wishes")
+    .select("*")
+    .order("id", { ascending: false });
 
-    if (!error) {
-      const list = document.getElementById("wish-list");
-      list.innerHTML = "";
-      data.forEach((wish) => {
-        const item = document.createElement("div");
-        item.className = "card p-2 mb-2";
-        item.innerHTML = `
-          <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
-          <p>${wish.ucapan}</p>
-        `;
-        list.appendChild(item);
-      });
+  if (!error && data) {
+    const list = document.getElementById("wish-list");
+    const button = document.getElementById("load-more");
+
+    list.innerHTML = "";
+    button.classList.add("d-none"); // Sembunyikan dulu
+
+    const maxVisible = 3;
+
+    data.forEach((wish, index) => {
+      const item = document.createElement("div");
+      item.className = "card p-2 mb-2 wish-item";
+      item.innerHTML = `
+        <strong>${wish.nama}</strong> (${wish.konfirmasi})<br/>
+        <p>${wish.ucapan}</p>
+      `;
+      if (index >= maxVisible) {
+        item.style.display = "none";
+      }
+      list.appendChild(item);
+    });
+
+    // Tampilkan tombol jika lebih dari 3 ucapan
+    if (data.length > maxVisible) {
+      button.classList.remove("d-none");
+      button.onclick = () => {
+        document.querySelectorAll(".wish-item").forEach(el => {
+          el.style.display = "block";
+        });
+        button.remove(); // Hapus tombol setelah diklik
+      };
     }
   }
+}
 
   loadWishes();
 </script>
