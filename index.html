@@ -639,14 +639,13 @@
         {
           nama,
           ucapan,
-          konfirmasi,
-          created_at: new Date().toISOString()
+          konfirmasi
         }
       ]);
 
       if (error) {
         alert("❌ Gagal menyimpan ucapan.");
-         console.error("Insert error:", error.message, error);
+        console.error("Insert error:", error.message, error);
       } else {
         alert("✅ Ucapan berhasil dikirim!");
         document.getElementById("wish-form").reset();
@@ -659,7 +658,7 @@
     const { data, error } = await supabase
       .from("wishes")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("id", { ascending: false }); // ganti dari created_at ke id
 
     if (!error && data) {
       const list = document.getElementById("wish-list");
@@ -709,7 +708,6 @@
     }
   }
 </script>
-
 
 </body>
 
