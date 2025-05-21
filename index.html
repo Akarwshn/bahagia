@@ -631,15 +631,15 @@
     document.getElementById("wish-form").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const message = document.getElementById("message").value;
-      const confirmation = document.getElementById("confirmation").value;
+      const nama = document.getElementById("name").value;
+      const ucapan = document.getElementById("message").value;
+      const konfirmasi = document.getElementById("confirmation").value;
 
       const { error } = await supabase.from("wishes").insert([
         {
-          name,
-          message,
-          confirmation,
+          nama,
+          ucapan,
+          konfirmasi,
           created_at: new Date().toISOString()
         }
       ]);
@@ -677,11 +677,11 @@
 
         const name = document.createElement("div");
         name.className = "wish-name";
-        name.textContent = `${wish.name} (${wish.confirmation})`;
+        name.textContent = `${wish.nama} (${wish.konfirmasi})`;
 
         const message = document.createElement("div");
         message.className = "wish-message";
-        message.textContent = wish.message;
+        message.textContent = wish.ucapan;
 
         if (index >= maxVisible) {
           card.style.display = "none";
