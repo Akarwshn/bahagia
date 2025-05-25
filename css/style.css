@@ -81,3 +81,48 @@
   height: 100vh;
   object-fit: cover;
 }
+
+/* Style untuk kartu ucapan */
+.wish-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #a86f6f;
+}
+
+.wish-initial {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #a86f6f;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.wish-content {
+  flex-grow: 1;
+}
+
+.wish-name {
+  font-weight: 600;
+  color: #7b3f3f;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.wish-message {
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+  color: #444;
+  line-height: 1.4;
+}
