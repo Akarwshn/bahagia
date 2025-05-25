@@ -649,64 +649,91 @@
   );
 
   document.addEventListener("DOMContentLoaded", () => {
+    // Panggil fungsi untuk memuat daftar ucapan
     loadWishes();
 
-    document.getElementById("wish-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
+    // Tangani submit form
+    const form = document.getElementById("wish-form");
+    if (form) {
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-      const nama = document.getElementById("name").value;
-      const ucapan = document.getElementById("message").value;
-      const konfirmasi = document.getElementById("confirmation").value;
+        const nama = document.getElementById("name").value.trim();
+        const ucapan = document.getElementById("message").value.trim();
+        const konfirmasi = document.getElementById("confirmation").value;
 
-      const { error } = await supabase.from("wishes").insert([
-        {
-          nama,
-          ucapan,
-          konfirmasi
+        if (!nama || !ucapan || !konfirmasi) {
+          alert("❗ Mohon lengkapi semua kolom.");
+          return;
         }
-      ]);
 
-      if (error) {
-        alert("❌ Gagal menyimpan ucapan.");
-        console.error("Insert error:", error.message, error);
-      } else {
-        alert("✅ Ucapan berhasil dikirim!");
-        document.getElementById("wish-form").reset();
-        loadWishes();
-      }
-    });
+        const { error } = await supabase.from("wishes").insert([
+          { nama, ucapan, konfirmasi }
+        ]);
+
+        if (error) {
+          alert("❌ Gagal menyimpan ucapan.");
+          console.error("Insert error:", error.message, error);
+        } else {
+          alert("✅ Ucapan berhasil dikirim!");
+          form.reset();
+          loadWishes(); // Reload ucapan
+        }
+      });
+    } else {
+      console.warn("⚠️ Form dengan id #wish-form tidak ditemukan.");
+    }
   });
 
-async function loadWishes() {
-  const { data, error } = await supabase
-    .from("wishes")
-    .select("*")
-    .order("id", { ascending: false });
+  async function loadWishes() {
+    const wishList = document.getElementById("wish-list");
+    if (!wishList) {
+      console.warn("⚠️ Element dengan id #wish-list tidak ditemukan di halaman.");
+      return;
+    }
 
-  if (!error && data) {
-    const list = document.getElementById("wish-list");
-    list.innerHTML = "";
+    const { data, error } = await supabase
+      .from("wishes")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      console.error("Fetch error:", error.message);
+      wishList.innerHTML = "<p class='text-danger'>Gagal memuat ucapan.</p>";
+      return;
+    }
+
+    if (data.length === 0) {
+      wishList.innerHTML = "<p class='text-muted text-center'>Belum ada ucapan 😢</p>";
+      return;
+    }
+
+    // Kosongkan list sebelum isi ulang
+    wishList.innerHTML = "";
 
     data.forEach((wish) => {
       const initial = wish.nama ? wish.nama.charAt(0).toUpperCase() : "?";
 
       const card = document.createElement("div");
-      card.className = "wish-card";
+      card.className = "wish-card border rounded p-3 mb-3 bg-light shadow-sm";
 
       card.innerHTML = `
-        <div class="wish-initial">${initial}</div>
-        <div class="wish-content">
-          <p class="wish-name">${wish.nama} (${wish.konfirmasi})</p>
-          <p class="wish-message">"${wish.ucapan}"</p>
+        <div class="d-flex align-items-start">
+          <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+            ${initial}
+          </div>
+          <div>
+            <p class="mb-1 fw-bold">${wish.nama} <span class="badge bg-primary">${wish.konfirmasi}</span></p>
+            <p class="mb-0 fst-italic">"${wish.ucapan}"</p>
+          </div>
         </div>
       `;
 
-      list.appendChild(card);
+      wishList.appendChild(card);
     });
   }
-}
-
 </script>
+
 
 </body>
 
