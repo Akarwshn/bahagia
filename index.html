@@ -685,53 +685,53 @@
     }
   });
 
-  async function loadWishes() {
-    const wishList = document.getElementById("wish-list");
-    if (!wishList) {
-      console.warn("⚠️ Element dengan id #wish-list tidak ditemukan di halaman.");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("wishes")
-      .select("*")
-      .order("id", { ascending: false });
-
-    if (error) {
-      console.error("Fetch error:", error.message);
-      wishList.innerHTML = "<p class='text-danger'>Gagal memuat ucapan.</p>";
-      return;
-    }
-
-    if (data.length === 0) {
-      wishList.innerHTML = "<p class='text-muted text-center'>Belum ada ucapan 😢</p>";
-      return;
-    }
-
-    // Kosongkan list sebelum isi ulang
-    wishList.innerHTML = "";
-
-    data.forEach((wish) => {
-      const initial = wish.nama ? wish.nama.charAt(0).toUpperCase() : "?";
-
-      const card = document.createElement("div");
-      card.className = "wish-card border rounded p-3 mb-3 bg-light shadow-sm";
-
-      card.innerHTML = `
-        <div class="d-flex align-items-start">
-          <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
-            ${initial}
-          </div>
-          <div>
-            <p class="mb-1 fw-bold">${wish.nama} <span class="badge bg-primary">${wish.konfirmasi}</span></p>
-            <p class="mb-0 fst-italic">"${wish.ucapan}"</p>
-          </div>
-        </div>
-      `;
-
-      wishList.appendChild(card);
-    });
+async function loadWishes() {
+  const wishList = document.getElementById("wish-list");
+  if (!wishList) {
+    console.warn("Elemen dengan id 'wish-list' tidak ditemukan.");
+    return;
   }
+
+  const { data, error } = await supabase
+    .from("wishes")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (error) {
+    console.error("Gagal memuat data:", error.message);
+    wishList.innerHTML = "<p class='text-danger'>Gagal memuat ucapan.</p>";
+    return;
+  }
+
+  if (data.length === 0) {
+    wishList.innerHTML = "<p class='text-muted text-center'>Belum ada ucapan.</p>";
+    return;
+  }
+
+  wishList.innerHTML = "";
+
+  data.forEach((wish) => {
+    const initial = wish.nama ? wish.nama.charAt(0).toUpperCase() : "?";
+
+    const card = document.createElement("div");
+    card.className = "wish-card border rounded p-3 mb-3 bg-light shadow-sm";
+
+    card.innerHTML = `
+      <div class="d-flex align-items-start">
+        <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+          ${initial}
+        </div>
+        <div>
+          <p class="mb-1 fw-bold">${wish.nama} <span class="badge bg-primary">${wish.konfirmasi}</span></p>
+          <p class="mb-0 fst-italic">"${wish.ucapan}"</p>
+        </div>
+      </div>
+    `;
+
+    wishList.appendChild(card);
+  });
+}
+
 </script>
 
 
