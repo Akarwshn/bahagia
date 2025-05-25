@@ -499,41 +499,76 @@
     </div>
   </section>
   <!-- amplop end -->
-  <!-- Ucapan start -->
-  <section class="bg-wakwak">
-    <div class="container py-5">
-      <div class="row text-center justify-content-center">
-        <div class="col-12 mb-5" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2250">
-          <h1 class="font-dancing fs-40">Wishes</h1>
-          <p class="p-0 m-0">Doa Restu Anda merupakan karunia</p>
-          <p class="p-0 m-0">yang sangat berarti bagi kami.</p>
+ <!-- Ucapan Section Start -->
+<section class="bg-wakwak">
+  <div class="container py-5">
+
+    <!-- Judul Section -->
+    <div class="row text-center justify-content-center">
+      <div class="col-12 mb-5" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2250">
+        <h1 class="font-dancing fs-40">Wishes</h1>
+        <p class="font-dancing mb-0">Untuk ibadah terpanjang yang akan kita lalui,</p>
+        <p class="font-dancing mb-0">semoga akan ada banyak cara untuk kita jatuh cinta setiap harinya.</p>
+      </div>
+
+      <!-- Form dan Daftar Ucapan -->
+      <div class="col-md-10 col-12 mx-2" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2500">
+        <div class="card bg-fee rounded-3 p-3">
+
+          <!-- Form Ucapan -->
+          <form id="wish-form" method="post">
+            <div class="mb-3">
+              <input
+                type="text"
+                id="name"
+                name="nama"
+                class="form-control"
+                placeholder="Nama"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <textarea
+                id="message"
+                name="ucapan"
+                class="form-control"
+                placeholder="Ucapan"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <select id="confirmation" name="konfirmasi" class="form-select" required>
+                <option disabled selected>Konfirmasi Kehadiran</option>
+                <option value="Hadir">Hadir</option>
+                <option value="Tidak Hadir">Tidak Hadir</option>
+              </select>
+            </div>
+
+            <div class="mb-3 text-start">
+              <button type="submit" class="btn bg-berem btn-outline-secondary text-white">
+                Kirim
+              </button>
+            </div>
+          </form>
+
         </div>
-        <div class="col-md-10 col-12 mx-2" data-aos="zoom-in" data-aos-duration="1300" data-aos-delay="2500">
-          <div class="card bg-fee rounded-3 p-3">
-            <form action="" method="post">
-              <div class="mb-3">
-                <input type="text" name="nama" placeholder="Nama" class="form-control" required />
-              </div>
-              <div class="mb-3">
-                <textarea name="ucapan" placeholder="Ucapan" rows="4" class="form-control" required></textarea>
-              </div>
-              <div class="mb-3">
-                <select name="konfirmasi" class="form-select" required>
-                  <option disabled selected>Konfirmasi Kehadiran</option>
-                  <option value="Hadir">Hadir</option>
-                  <option value="Tidak Hadir">Tidak Hadir</option>
-                </select>
-              </div>
-              <div class="mb-3 text-start">
-                <button type="submit" class="btn bg-berem btn-outline-secondary text-white">Kirim</button>
-              </div>
-            </form>
+
+        <!-- Daftar Ucapan -->
+        <div class="container mt-4">
+          <h3 class="text-center">Ucapan & Doa</h3>
+          <div id="wish-list">
+            <!-- Ucapan akan dimuat otomatis di sini -->
           </div>
         </div>
+
       </div>
     </div>
-  </section>
-  <!-- Ucapan end -->
+  </div>
+</section>
+<!-- Ucapan Section End -->
   <!-- salam start -->
   <section class="bg-wakwak">
     <div class="container py-5">
@@ -605,6 +640,74 @@
       once: true,
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+<script>
+  const supabase = window.supabase.createClient(
+    "https://temlsgkkbdphwcyqrosm.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbWxzZ2trYmRwaHdjeXFyb3NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2Mjg4MzYsImV4cCI6MjA2MjIwNDgzNn0.5I0s9ZrZfc0QXWgfY1JEUsVgNDoBMYEnDwHDDL5lKUo"
+  );
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadWishes();
+
+    document.getElementById("wish-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("name").value;
+      const ucapan = document.getElementById("message").value;
+      const konfirmasi = document.getElementById("confirmation").value;
+
+      const { error } = await supabase.from("wishes").insert([
+        {
+          nama,
+          ucapan,
+          konfirmasi
+        }
+      ]);
+
+      if (error) {
+        alert("❌ Gagal menyimpan ucapan.");
+        console.error("Insert error:", error.message, error);
+      } else {
+        alert("✅ Ucapan berhasil dikirim!");
+        document.getElementById("wish-form").reset();
+        loadWishes();
+      }
+    });
+  });
+
+async function loadWishes() {
+  const { data, error } = await supabase
+    .from("wishes")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (!error && data) {
+    const list = document.getElementById("wish-list");
+    list.innerHTML = "";
+
+    data.forEach((wish) => {
+      const initial = wish.nama ? wish.nama.charAt(0).toUpperCase() : "?";
+
+      const card = document.createElement("div");
+      card.className = "wish-card";
+
+      card.innerHTML = `
+        <div class="wish-initial">${initial}</div>
+        <div class="wish-content">
+          <p class="wish-name">${wish.nama} (${wish.konfirmasi})</p>
+          <p class="wish-message">"${wish.ucapan}"</p>
+        </div>
+      `;
+
+      list.appendChild(card);
+    });
+  }
+}
+
+</script>
+
 </body>
 
 </html>
