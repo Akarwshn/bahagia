@@ -163,7 +163,7 @@
   font-size: 20px;
   animation: floatUp 4s linear infinite;
   pointer-events: none;
-  z-index: -1; /* naikkan di atas background */
+  z-index: 1; /* naikkan di atas background */
   color: rgba(255, 192, 203, 0.3); /* Pink soft */
   opacity: 0.4;
   filter: blur(1.5px);
