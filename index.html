@@ -743,21 +743,23 @@ async function loadWishes() {
 }
 
 </script>
-  
-  <script>
-  // Love Floating Effect
-  const totalLoveHearts = 30;
-  for (let i = 0; i < totalLoveHearts; i++) {
-    let heart = document.createElement("div");
-    heart.className = "love-heart";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
-    heart.style.opacity = Math.random();
-    heart.style.transform = `scale(${0.5 + Math.random() * 1}) rotate(45deg)`;
-    document.body.appendChild(heart);
-  }
-</script>
+<script>
+  // Fungsi untuk membuat hati
+  function createLove() {
+    const love = document.createElement('div');
+    love.classList.add('love');
+    love.innerHTML = '❤️';
+    love.style.left = Math.random() * 100 + 'vw';
+    love.style.fontSize = (12 + Math.random() * 24) + 'px';
+    document.body.appendChild(love);
 
+    // Hapus elemen setelah 4 detik
+    setTimeout(() => love.remove(), 4000);
+  }
+
+  // Jalankan setiap 500ms
+  setInterval(createLove, 500);
+</script>
 
 </body>
 
