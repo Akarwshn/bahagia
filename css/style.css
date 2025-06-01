@@ -163,6 +163,8 @@
   font-size: 20px;
   animation: floatUp 4s linear infinite;
   pointer-events: none;
+  z-index: -1; /* Di belakang semua elemen lain */
+  opacity: 0.8; /* Tambahin opacity biar nggak terlalu mencolok */
 }
 
 @keyframes floatUp {
