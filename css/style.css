@@ -155,3 +155,45 @@
   color: #444;
   line-height: 1.4;
 }
+
+.love-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+  animation: floatLove 10s infinite;
+  pointer-events: none; /* biar tidak ganggu klik */
+  z-index: 0; /* supaya di belakang konten */
+}
+
+.love-heart::before,
+.love-heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.love-heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.love-heart::after {
+  left: -10px;
+  top: 0;
+}
+
+@keyframes floatLove {
+  0% {
+    transform: translateY(100vh) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(45deg);
+    opacity: 0;
+  }
+}
