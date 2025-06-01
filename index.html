@@ -743,6 +743,20 @@ async function loadWishes() {
 }
 
 </script>
+  
+  <script>
+  // Love Floating Effect
+  const totalLoveHearts = 30;
+  for (let i = 0; i < totalLoveHearts; i++) {
+    let heart = document.createElement("div");
+    heart.className = "love-heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    heart.style.opacity = Math.random();
+    heart.style.transform = `scale(${0.5 + Math.random() * 1}) rotate(45deg)`;
+    document.body.appendChild(heart);
+  }
+</script>
 
 
 </body>
