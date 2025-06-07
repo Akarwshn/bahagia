@@ -8,7 +8,6 @@
 <meta property="og:image" content="https://akarwshn.github.io/bahagia/img/img00.jpg" />
 <meta property="og:url" content="https://akarwshn.github.io/bahagia/" />
 <meta property="og:type" content="website" />
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 
 <!-- Untuk Twitter Preview -->
@@ -48,7 +47,7 @@
     <source src="audio/audio.mp3" type="audio/mp3" />
   </audio>
   <!-- lagu end -->
-<!-- Popup Start -->
+<!-- popup start -->
 <div class="d-none">
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="klikmodal">
     Launch demo modal
@@ -58,43 +57,21 @@
 <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-      <div class="modal-body bg-wakwak p-0 position-relative">
-
-        <!-- Bunga kiri bawah -->
-        <dotlottie-player id="flowerLeft"
-          src="https://lottie.host/4ad02bb2-b9b5-4034-9a81-2cff9fa9c728/5l0HzcWXJk.lottie"
-          background="transparent"
-          speed="1"
-          style="position: absolute; bottom: 0; left: 0; width: 150px; height: 150px; z-index: 1;"
-          loop autoplay>
-        </dotlottie-player>
-
-        <!-- Bunga kanan bawah (dibalik horizontal) -->
-        <dotlottie-player id="flowerRight"
-          src="https://lottie.host/4ad02bb2-b9b5-4034-9a81-2cff9fa9c728/5l0HzcWXJk.lottie"
-          background="transparent"
-          speed="1"
-          style="position: absolute; bottom: 0; right: 0; width: 150px; height: 150px; z-index: 1; transform: scaleX(-1);"
-          loop autoplay>
-        </dotlottie-player>
-
-        <!-- Isi popup -->
+      <div class="modal-body bg-wakwak p-0">
         <div class="row justify-content-center mt-0 text-center h-100" id="front-image-container">
           <div class="col-md-6 col-12" id="front-image">
-            <img src="img/img3.jpg" alt="" />
+            <img src="img/img3.jpg" alt=""/>
           </div>
           <div class="flex col-md-6 col-12 mt-auto mb-auto" id="front-text">
             <p><small>The Wedding of</small></p>
-            <h1 class="font-dancing fs-60">Erent Priza <br />&<br /> Muhammad Ziaul Haq</h1>
+            <h1 class="font-dancing fs-60">Erent Priza <br/>&<br /> Muhammad Ziaul Haq</h1>
             <small class="mt-3">Sabtu, 5 Juli 2025</small>
             <hr class="border-secondary w-50 mx-auto" />
             <p class="mb-1">Kepada Bapak/Ibu/Saudara/i</p>
             <p class="mb-2 mt-2"><span class="fw-semibold h4" id="nama">Tamu Undangan</span></p>
             <p class="mb-2">di Tempat</p>
-
-            <!-- Tombol Buka Undangan -->
             <button type="button" class="btn bg-berem btn-outline-secondary text-white rounded-4"
-              data-bs-dismiss="modal" onclick="playAudio(); hideFlowers()">
+              data-bs-dismiss="modal" onclick="playAudio()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-envelope-heart-fill mb-1" viewBox="0 0 16 16">
                 <path
@@ -105,12 +82,11 @@
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </div>
-<!-- Popup End -->
+<!-- popup end -->
 
 <!-- SCRIPT UNTUK AMBIL NAMA TAMU DARI URL -->
 <script>
@@ -125,19 +101,7 @@
       namaSpan.textContent = "Tamu Undangan";
     }
   });
-   // Hilangkan bunga saat klik "Buka Undangan"
-  function hideFlowers() {
-    const left = document.getElementById("flowerLeft");
-    const right = document.getElementById("flowerRight");
-    left.style.transition = "opacity 1s ease";
-    right.style.transition = "opacity 1s ease";
-    left.style.opacity = "0";
-    right.style.opacity = "0";
-    setTimeout(() => {
-      left.style.display = "none";
-      right.style.display = "none";
-    }, 1000);
-  }
+
 </script>
 
   <!-- popup end -->
