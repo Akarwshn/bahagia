@@ -61,9 +61,6 @@
         <div class="row justify-content-center mt-0 text-center h-100" id="front-image-container">
           <div class="col-md-6 col-12" id="front-image">
             <img src="img/img3.jpg" alt=""/>
-            <div class="tirai tirai-kiri"></div>
-<div class="tirai tirai-kanan"></div>
-
           </div>
           <div class="flex col-md-6 col-12 mt-auto mb-auto" id="front-text">
             <p><small>The Wedding of</small></p>
@@ -765,20 +762,6 @@ async function loadWishes() {
   setInterval(createLove, 500);
  function handlePopupClose() {
 
-   <script>
-  function playAudio() {
-    const audio = document.getElementById("bg-music");
-    if (audio) audio.play();
-
-    // Efek tirai terbuka
-    const modalBody = document.querySelector(".modal-body");
-    modalBody.classList.add("tirai-buka");
-
-    // Hapus tirai setelah selesai animasi (opsional)
-    setTimeout(() => {
-      document.querySelectorAll(".tirai").forEach(el => el.remove());
-    }, 1500);
-  }
 </script>
 
 </body>
