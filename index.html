@@ -8,6 +8,8 @@
 <meta property="og:image" content="https://akarwshn.github.io/bahagia/img/img00.jpg" />
 <meta property="og:url" content="https://akarwshn.github.io/bahagia/" />
 <meta property="og:type" content="website" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 
 <!-- Untuk Twitter Preview -->
 <meta name="twitter:card" content="summary_large_image" />
@@ -56,7 +58,29 @@
 <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-      <div class="modal-body bg-wakwak p-0">
+      <!-- Tambah style="position: relative" agar bunga bisa diposisikan absolut -->
+      <div class="modal-body bg-wakwak p-0" style="position: relative;">
+        <!-- Bunga kiri -->
+        <lottie-player
+          src="https://lottie.host/3f4f1c5a-9104-44e0-bb5b-6bfa3bdbe82f/mTOUe8rs6J.json"
+          background="transparent"
+          speed="1"
+          style="position: absolute; bottom: 0; left: 0; width: 150px; height: 150px; z-index: 1;"
+          loop
+          autoplay>
+        </lottie-player>
+
+        <!-- Bunga kanan (dibalik horizontal pakai scaleX) -->
+        <lottie-player
+          src="https://lottie.host/3f4f1c5a-9104-44e0-bb5b-6bfa3bdbe82f/mTOUe8rs6J.json"
+          background="transparent"
+          speed="1"
+          style="position: absolute; bottom: 0; right: 0; width: 150px; height: 150px; z-index: 1; transform: scaleX(-1);"
+          loop
+          autoplay>
+        </lottie-player>
+
+        <!-- Konten popup -->
         <div class="row justify-content-center mt-0 text-center h-100" id="front-image-container">
           <div class="col-md-6 col-12" id="front-image">
             <img src="img/img3.jpg" alt=""/>
