@@ -179,31 +179,3 @@
     opacity: 0;
   }
 }
-
-.tirai {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 50%;
-  background: linear-gradient(to right, #f8f8f8, #eaeaea);
-  z-index: 1050; /* pastikan menutupi modal-content */
-  transition: transform 1s ease-in-out;
-}
-
-.tirai-kiri {
-  left: 0;
-  border-right: 2px solid #ccc;
-}
-
-.tirai-kanan {
-  right: 0;
-  border-left: 2px solid #ccc;
-}
-
-.tirai-buka .tirai-kiri {
-  transform: translateX(-100%);
-}
-
-.tirai-buka .tirai-kanan {
-  transform: translateX(100%);
-}
